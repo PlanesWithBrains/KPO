@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1069.0" style="-fx-background-color: #602290;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.demoController">
+   <children>
+      <TableView fx:id="TableIN" layoutX="174.0" layoutY="31.0" prefHeight="666.0" prefWidth="546.0" style="-fx-background-color: fafafa;">
+        <columns>
+          <TableColumn fx:id="columnAirline" prefWidth="75.0" text="Airline" />
+          <TableColumn fx:id="columnNumber" prefWidth="75.0" text="Number" />
+            <TableColumn fx:id="columnPlane" prefWidth="75.0" text="Plane" />
+            <TableColumn fx:id="columnRunway" prefWidth="75.0" text="Runway" />
+            <TableColumn fx:id="columnRoute" prefWidth="75.0" text="Route" />
+            <TableColumn fx:id="columnParking" prefWidth="75.0" text="Parking" />
+            <TableColumn fx:id="columnTime" prefWidth="75.0" text="TimeOut" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
