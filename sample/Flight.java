@@ -18,11 +18,18 @@ public class Flight{
     int number; //номер рейса
     Plane plane;//самолет
     boolean status; //есть ли экстренная ситуация
-    Flight(Plane P, Airline NameCompany, int numb, boolean state){
+    int distance;
+    int hight;
+    String arrivalFrom;// TODO для демки в генератор необходиом добавить направление,с которого прибывает самолет
+    //TODO направления аналогичны тем,что указаны в классе Airport
+    Flight(Plane P, Airline NameCompany, int numb, boolean state, int distanc, int Hight, String arrival){
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;
         this.status = state;
+        this.distance = distanc;
+        this.hight = Hight;
+        this.arrivalFrom = arrival;
     }
     String getCarrier(){ //toString
         return carrier.name();

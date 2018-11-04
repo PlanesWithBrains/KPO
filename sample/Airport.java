@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.*;
 
 enum Direction{
-    North,East,West,South,North_West,North_East,South_West,South_East
+    North,East,West,South,NorthWest,NorthEast,SouthWest,SouthEast
 }
 
 public class Airport {
@@ -17,7 +17,7 @@ public class Airport {
         int numbOfLines = 2;
         this.planes = planes;
         Directions direct = new Directions();
-        this.directions = direct.getDirect();
+        //this.directions = direct.getDirect();
         this.corridors = corridors;
         Lines linesl = new Lines();
         this.lines = linesl.getlongL(numbOfLines);
@@ -53,7 +53,11 @@ class Directions {
 
 class Corridors { // необходимо узнать: подкаждую ли полосу выделяются свои корридоры
     //либо же корридоры не зависят от полос
+    //TODO создавать объект Directions в этом классе, необходима связь между корридором и направлением.
     int number;
     int lines_number;
+    Directions direct = new Directions();
+    //direct.
+
 }
 
