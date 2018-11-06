@@ -7,18 +7,18 @@ enum Direction{
     North,East,West,South,NorthWest,NorthEast,SouthWest,SouthEast
 }
 
-public class Airport {
+public class Airport { // Класс для описания аэропорта (ТОЛЬКО ДЛЯ ЭТОГО)
     ArrayList<Plane> planes; // массив самолетов (классов судов,которые принимает аэропорт)
-    Vector<Integer> lines;
-    Vector<String> directions; // маршруты для взлета
-    Vector<Integer> corridors; // корридоры для посадки
+    Vector<Integer> lines;// вектор с информацией о полосах
+    HashMap<Direction,Corridors> directions; // маршруты для взлета
+
     // возможно, стоит дописать отдельные класы для двух полей выше(?)
-    void Airport(ArrayList<Plane> planes,Vector<Integer> directions,Vector<Integer> corridors){
+     Airport(ArrayList<Plane> planes,Vector<Integer> corridors){
         int numbOfLines = 2;
         this.planes = planes;
         Directions direct = new Directions();
-        //this.directions = direct.getDirect();
-        this.corridors = corridors;
+        this.directions = direct.getDirect();
+
         Lines linesl = new Lines();
         this.lines = linesl.getlongL(numbOfLines);
     }
@@ -37,27 +37,49 @@ class Lines {
     }
 
 }
-
+// логичнее создавать корридоры для направлений(?) те. направления выше в иерархии
 class Directions {
-    Direction direction;
-    Vector<String> direct = new Vector<String>();
     Direction[] directL = Direction.values();
-    public Vector<String> getDirect(){
+    int w=100,e=200;
+    HashMap<Direction,Corridors> directs = new HashMap<Direction,Corridors>();
+    public HashMap<Direction,Corridors> getDirect(){
         for (int i=0;i<8;i++){
-            direction = directL[i];
-            direct.add(direction.toString());// вектор хранящий направления для вылетов
-        }
-        return direct;
+            if(directL[i].toString() == "North" || directL[i].toString() == "NorthWest" || directL[i].toString() == "West" || directL[i].toString() == "SouthWest"){
+                Corridors cor = new Corridors(w,1);
+                directs.put(directL[i],cor);
+                w++;
+            }
+            if(directL[i].toString() == "South" || directL[i].toString() == "NorthEast" || directL[i].toString() == "East" || directL[i].toString() == "SouthEast"){
+                Corridors cor = new Corridors(e,2);
+                directs.put(directL[i],cor);
+                e++;
+            }
+            else{
+                System.out.println("Ошибка в функции getDirect");
+            }
+            //direct.add(direction.toString());// вектор хранящий направления для вылетов
+        }//TODO удалить строку перед ретюрном
+        System.out.println(directs.toString());
+        return directs;
     }
 }
 
-class Corridors { // необходимо узнать: подкаждую ли полосу выделяются свои корридоры
-    //либо же корридоры не зависят от полос
-    //TODO создавать объект Directions в этом классе, необходима связь между корридором и направлением.
-    int number;
-    int lines_number;
-    Directions direct = new Directions();
-    //direct.
+class Corridors {
+    int number;// номер корридора, задается в трехзначном формате "101"
+    //1 (103) - означает западный торец (W), 2 (203) - восточный (E), где 03 - номер корридора
+    int lines_number;// номер полосы
+    char side;// какой торец полосы используется
+    Corridors(int number,int lines){
+        if (number>=100){
+            side = 'W';
+        }
+        if (number>=200){
+            side = 'E';
+        }
+        else{
+            System.out.println("Задан неправильнй номер полосы!");
+        }
 
+    }
 }
 
