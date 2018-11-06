@@ -44,12 +44,13 @@ class Directions {
     HashMap<Direction,Corridors> directs = new HashMap<Direction,Corridors>();
     public HashMap<Direction,Corridors> getDirect(){
         for (int i=0;i<8;i++){
-            if(directL[i].toString() == "North" || directL[i].toString() == "NorthWest" || directL[i].toString() == "West" || directL[i].toString() == "SouthWest"){
+            //if(directL[i].toString() == "North" || directL[i].toString() == "NorthWest" || directL[i].toString() == "West" || directL[i].toString() == "SouthWest"){
+            if((Arrays.asList("North","NorthWest","West","SouthWest")).contains(directL[i].toString()) ){
                 Corridors cor = new Corridors(w,1);
                 directs.put(directL[i],cor);
                 w++;
             }
-            if(directL[i].toString() == "South" || directL[i].toString() == "NorthEast" || directL[i].toString() == "East" || directL[i].toString() == "SouthEast"){
+            if((Arrays.asList("South","NorthEast","East","SouthEast")).contains(directL[i].toString()) ){
                 Corridors cor = new Corridors(e,2);
                 directs.put(directL[i],cor);
                 e++;
@@ -57,7 +58,6 @@ class Directions {
             else{
                 System.out.println("Ошибка в функции getDirect");
             }
-            //direct.add(direction.toString());// вектор хранящий направления для вылетов
         }//TODO удалить строку перед ретюрном
         System.out.println(directs.toString());
         return directs;
