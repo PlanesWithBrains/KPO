@@ -8,14 +8,14 @@ enum Direction{
 }
 
 public class Airport { // Класс для описания аэропорта (ТОЛЬКО ДЛЯ ЭТОГО)
-    ArrayList<Plane> planes; // массив самолетов (классов судов,которые принимает аэропорт)
+    //ArrayList<Plane> planes; // массив самолетов (классов судов,которые принимает аэропорт)
     Vector<Integer> lines;// вектор с информацией о полосах
     HashMap<Direction,Corridors> directions; // маршруты для взлета
 
     // возможно, стоит дописать отдельные класы для двух полей выше(?)
-     Airport(ArrayList<Plane> planes,Vector<Integer> corridors){
+     Airport(){
         int numbOfLines = 2;
-        this.planes = planes;
+        //this.planes = planes;
         Directions direct = new Directions();
         this.directions = direct.getDirect();
 
@@ -27,10 +27,11 @@ class Lines {
     int longL;
 
     public Vector<Integer> getlongL(int count){ // count количество полос, longL их длина
-        Random rand = new Random();
+        //Random rand = new Random();
         Vector<Integer> longV = new Vector <Integer>();
          for(int i=0;i<count;i++){
-             longL=rand.nextInt(4000-1000);
+             //longL=rand.nextInt(4000-1000);
+             longL=4000;
              longV.add(longL); // вектор с данными по длинам полос; индекс+1 - номер полосы
          }
          return longV;
@@ -58,7 +59,7 @@ class Directions {
             else{
                 System.out.println("Ошибка в функции getDirect");
             }
-        }//TODO удалить строку перед ретюрном
+        }//TODO на билде, удалить строку перед ретюрном
         System.out.println(directs.toString());
         return directs;
     }
@@ -69,11 +70,12 @@ class Corridors {
     //1 (103) - означает западный торец (W), 2 (203) - восточный (E), где 03 - номер корридора
     int lines_number;// номер полосы
     char side;// какой торец полосы используется
+    boolean status;
     Corridors(int number,int lines){
-        if (number>=100){
+        if (number>=100 && number <200){
             side = 'W';
         }
-        if (number>=200){
+        if (number>=200 && number <300){
             side = 'E';
         }
         else{
