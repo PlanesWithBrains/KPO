@@ -11,7 +11,11 @@ public class Proccess {// класс для обработки объектов 
     Flight[] flightD;//вылетающие самолеты
     LocalTime time;
     Airport airport = new Airport();
-    Proccess(){
+    Proccess(Flight[] flightA,Flight[] flightD){
+        this.flight = flightA;
+        this.flightD = flightD;
+        MakingSingleRegister(flight,flightD);
+        GetCommand();
 
     }
     public void MakingSingleRegister(Flight[] flight,Flight[] flightD){ // вызывать первой
@@ -30,39 +34,75 @@ public class Proccess {// класс для обработки объектов 
         }
     }
     public void GetCommand(){
-        Vector<Corridors> cor = new Vector<Corridors>();
-        Vector<Lines> line = new Vector<>();
-        boolean flag=false;int j=0;
+        Corridors cor;
+        Flight temp;
+        FinalTable FT;
+
+        boolean flag=false;
         time = flight[0].time;
         for(int i = 0;i < flight.length;i++){
-            if ((Arrays.asList("NorthWest", "West")).contains(flight[i].direction.toString()) && (time.isAfter(flight[i].time) || time.equals(flight[i].time))) { // я не уверен во втором условии!
-                cor.addElement(airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+            if(flight[i].time.isAfter(time)){
+                airport.lines.replace(0,false);
+                airport.lines.replace(1,false);
+            }
+            if ((Arrays.asList("NorthWest", "West")).contains(flight[i].direction.toString()) && (!time.isBefore(flight[i].time) || !airport.lines.get(0))) { // я не уверен во втором условии!
+                cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
                 //прибавлять время из расчета
                 if (flight[i].hight != 0) {
-                    time.plusMinutes(6);
-                    //добавить проверку на свободность полосы!!!
-                    //если полоса занята,то можно перевести на другую,если NW+SW~
+                    time = time.plusMinutes(7);
                     //добавлять информацию о самолете(рейсе) + статусе + времени (time) в объект класса FinalTable
+                    FT = new FinalTable(flight[i],cor,1,time);
                 }
-                if(){
-
+                if (flight[i].hight == 0) {
+                    time = time.plusMinutes(6);
+                    FT = new FinalTable(flight[i],cor,1,time);
                 }
-                line.get(j).status = true;
+
+                airport.lines.replace(0,true);
             }
-            if ((Arrays.asList("NorthEast", "East")).contains(flight[i].direction.toString())) {
-                cor.addElement(airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+            if ((Arrays.asList("NorthEast", "East")).contains(flight[i].direction.toString()) && (!time.isBefore(flight[i].time) || !airport.lines.get(0))) {
+                cor = (airport.directions.get(flight[i].direction));
+                if (flight[i].hight != 0) {
+                    time = time.plusMinutes(7);
+                    FT = new FinalTable(flight[i],cor,1,time);
+                }
+                if (flight[i].hight == 0) {
+                    time = time.plusMinutes(6);
+                    FT = new FinalTable(flight[i],cor,1,time);
+                }
+                airport.lines.replace(0,true);
             }
-            if ((Arrays.asList("SouthWest","West")).contains(flight[i].direction.toString())) {
-                cor.addElement(airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+            if ((Arrays.asList("SouthWest","West")).contains(flight[i].direction.toString()) && (!time.isBefore(flight[i].time) || !airport.lines.get(1))) {
+                cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+                if (flight[i].hight != 0) {
+                    time = time.plusMinutes(6);
+                    FT = new FinalTable(flight[i],cor,2,time);
+                }
+                if (flight[i].hight == 0) {
+                    time = time.plusMinutes(5);
+                    FT = new FinalTable(flight[i],cor,2,time);
+                }
+                airport.lines.replace(1,true);
             }
-            if ((Arrays.asList("SouthEast","East")).contains(flight[i].direction.toString())) {
-                cor.addElement(airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+            if ((Arrays.asList("SouthEast","East")).contains(flight[i].direction.toString())&& (!time.isBefore(flight[i].time) || !airport.lines.get(1))) {
+                cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+                if (flight[i].hight != 0) {
+                    time = time.plusMinutes(6);
+                    FT = new FinalTable(flight[i],cor,2,time);
+                }
+                if (flight[i].hight == 0) {
+                    time = time.plusMinutes(5);
+                    FT = new FinalTable(flight[i],cor,2,time);
+                }
+                airport.lines.replace(1,true);
+            }
+            else{
+                temp = flight[i];
+                flight[i] = flight[i+1];
+                flight[i+1] = temp;
+                i--;
             }
 
-            cor.get(j).status = true;// означает, что корридор занят
-            j++;
-           // if (i == flight.length)// это будут массивы объектов Flight
-           // {break;}
         }
     }
 

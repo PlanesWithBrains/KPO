@@ -21,5 +21,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        //вызов логики))0)
+        //Proccess pr = new Proccess("массив прилетающих","массив вылетающих");
+
     }
 }

@@ -15,28 +15,27 @@ public class Airport { // Класс для описания аэропорта 
     // возможно, стоит дописать отдельные класы для двух полей выше(?)
      Airport(){
         int numbOfLines = 2;
-        //this.planes = planes;
         Directions direct = new Directions();
         this.directions = direct.getDirect();
         Lines linesl = new Lines();
-        lines = linesl.GetLines(numbOfLines,4000);
+        lines = linesl.GetLines(numbOfLines);
     }
 }
 class Lines {
-    int longL;
+    int numb;
     boolean status;
 
-    HashMap<Integer,Boolean> GetLines(int count,int LongL){ // count количество полос, longL их длина
+    HashMap<Integer,Boolean> GetLines(int count){ // count количество полос, longL их длина
         HashMap<Integer,Boolean> longV = new HashMap<Integer, Boolean>();
          for(int i=0;i<count;i++){
-             this.longL = LongL;
-             longV.put(longL,false); // вектор с данными по длинам полос; индекс+1 - номер полосы
+             this.numb = i;
+             longV.put(numb,false); // вектор с данными по длинам полос; индекс+1 - номер полосы
          }
          return longV;
     }
 
 }
-// логичнее создавать корридоры для направлений(?) те. направления выше в иерархии
+
 class Directions {
     Direction[] directL = Direction.values();
     int NW = 100,NE = 100, SW = 200, SE = 200;
