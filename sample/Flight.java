@@ -1,6 +1,7 @@
 package sample;
 
 import java.sql.Time;
+import java.time.*;
 
 enum Airline{
     SBI,//S7,
@@ -22,7 +23,7 @@ public class Flight{
     boolean status; //есть ли экстренная ситуация
     int distance;
     int hight;
-    Time time;
+    LocalTime time;
     boolean landingStatus;//совершена ли посадка
     Direction direction;
     String arrivalFrom;// TODO для демки в генератор необходиом добавить направление,с которого прибывает самолет

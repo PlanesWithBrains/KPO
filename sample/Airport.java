@@ -1,15 +1,15 @@
 package sample;
 
-import java.util.ArrayList;
 import java.util.*;
 
 enum Direction{
-    North,East,West,South,NorthWest,NorthEast,SouthWest,SouthEast
+    NorthWest,NorthEast,East,West,SouthWest,SouthEast
 }
 
 public class Airport { // Класс для описания аэропорта (ТОЛЬКО ДЛЯ ЭТОГО)
     //ArrayList<Plane> planes; // массив самолетов (классов судов,которые принимает аэропорт)
-    Vector<Integer> lines;// вектор с информацией о полосах
+    //Vector<Lines> lines;// вектор с информацией о полосах
+    HashMap<Integer,Boolean> lines;
     HashMap<Direction,Corridors> directions; // маршруты для взлета
 
     // возможно, стоит дописать отдельные класы для двух полей выше(?)
@@ -18,21 +18,19 @@ public class Airport { // Класс для описания аэропорта 
         //this.planes = planes;
         Directions direct = new Directions();
         this.directions = direct.getDirect();
-
         Lines linesl = new Lines();
-        this.lines = linesl.getlongL(numbOfLines);
+        lines = linesl.GetLines(numbOfLines,4000);
     }
 }
 class Lines {
     int longL;
+    boolean status;
 
-    public Vector<Integer> getlongL(int count){ // count количество полос, longL их длина
-        //Random rand = new Random();
-        Vector<Integer> longV = new Vector <Integer>();
+    HashMap<Integer,Boolean> GetLines(int count,int LongL){ // count количество полос, longL их длина
+        HashMap<Integer,Boolean> longV = new HashMap<Integer, Boolean>();
          for(int i=0;i<count;i++){
-             //longL=rand.nextInt(4000-1000);
-             longL=4000;
-             longV.add(longL); // вектор с данными по длинам полос; индекс+1 - номер полосы
+             this.longL = LongL;
+             longV.put(longL,false); // вектор с данными по длинам полос; индекс+1 - номер полосы
          }
          return longV;
     }
@@ -41,20 +39,30 @@ class Lines {
 // логичнее создавать корридоры для направлений(?) те. направления выше в иерархии
 class Directions {
     Direction[] directL = Direction.values();
-    int w=100,e=200;
+    int NW = 100,NE = 100, SW = 200, SE = 200;
     HashMap<Direction,Corridors> directs = new HashMap<Direction,Corridors>();
     public HashMap<Direction,Corridors> getDirect(){
-        for (int i=0;i<8;i++){
-            //if(directL[i].toString() == "North" || directL[i].toString() == "NorthWest" || directL[i].toString() == "West" || directL[i].toString() == "SouthWest"){
-            if((Arrays.asList("North","NorthWest","West","SouthWest")).contains(directL[i].toString()) ){
-                Corridors cor = new Corridors(w,1);
+        for (int i=0;i<6;i++){
+            if((Arrays.asList("NorthWest","West")).contains(directL[i].toString()) ){
+                Corridors cor = new Corridors("NW",1);
                 directs.put(directL[i],cor);
-                w++;
+                NW++;
             }
-            if((Arrays.asList("South","NorthEast","East","SouthEast")).contains(directL[i].toString()) ){
-                Corridors cor = new Corridors(e,2);
+            if((Arrays.asList("NorthEast","East")).contains(directL[i].toString()) ){
+                Corridors cor = new Corridors("NE",1);
                 directs.put(directL[i],cor);
-                e++;
+                NE++;
+            }
+
+            if((Arrays.asList("SouthWest","West")).contains(directL[i].toString()) ){
+                Corridors cor = new Corridors("SW",2);
+                directs.put(directL[i],cor);
+                SW++;
+            }
+            if((Arrays.asList("SouthEast","East")).contains(directL[i].toString()) ){
+                Corridors cor = new Corridors("SE",2);
+                directs.put(directL[i],cor);
+                SE++;
             }
             else{
                 System.out.println("Ошибка в функции getDirect");
@@ -69,14 +77,20 @@ class Corridors {
     int number;// номер корридора, задается в трехзначном формате "101"
     //1 (103) - означает западный торец (W), 2 (203) - восточный (E), где 03 - номер корридора
     int lines_number;// номер полосы
-    char side;// какой торец полосы используется
+    String side;// какой торец полосы используется
     boolean status;
-    Corridors(int number,int lines){
-        if (number>=100 && number <200){
-            side = 'W';
+    Corridors(String s,int lines){
+        if (s.equals("NW")){
+            side = "W1";
         }
-        if (number>=200 && number <300){
-            side = 'E';
+        if (s.equals("NE")){
+            side = "E1";
+        }
+        if (s.equals("SW")){
+            side = "W2";
+        }
+        if (s.equals("SE")){
+            side = "E2";
         }
         else{
             System.out.println("Задан неправильнй номер полосы!");
