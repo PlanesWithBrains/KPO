@@ -3,6 +3,7 @@ package Controllers;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.*;
@@ -108,13 +109,16 @@ public class demoController {
         }
         return buf;
     }
-    static public Flight[] getFlights(String PATH_OUTPUT, boolean flag) { //ДЕССЕРИАЛИЗАТОР
+    static public Flight[] getFlights(String PATH, boolean flag) { //ДЕССЕРИАЛИЗАТОР
         Gson gson = new Gson(); //сашкина либа для десериализации
         Flight[] temp = new Flight[1]; // буфер
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(PATH_INPUT));
+            BufferedReader reader = new BufferedReader(new FileReader(PATH));
             temp = gson.fromJson(reader, Flight[].class);
+            reader.close();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -36,31 +36,27 @@ class Directions {
     public HashMap<Direction,Corridors> getDirect(){
         for (int i=0;i<6;i++){
             if((Arrays.asList("NorthWest","West")).contains(directL[i].toString()) ){
-                Corridors cor = new Corridors("NW",1);
+                Corridors cor = new Corridors("NW",1,NW);
                 directs.put(directL[i],cor);
                 NW++;
             }
             if((Arrays.asList("NorthEast","East")).contains(directL[i].toString()) ){
-                Corridors cor = new Corridors("NE",1);
+                Corridors cor = new Corridors("NE",1,NE);
                 directs.put(directL[i],cor);
                 NE++;
             }
 
             if((Arrays.asList("SouthWest","West")).contains(directL[i].toString()) ){
-                Corridors cor = new Corridors("SW",2);
+                Corridors cor = new Corridors("SW",2,SW);
                 directs.put(directL[i],cor);
                 SW++;
             }
             if((Arrays.asList("SouthEast","East")).contains(directL[i].toString()) ){
-                Corridors cor = new Corridors("SE",2);
+                Corridors cor = new Corridors("SE",2,SE);
                 directs.put(directL[i],cor);
                 SE++;
             }
-            else{
-                System.out.println("Ошибка в функции getDirect");
-            }
-        }//TODO на билде, удалить строку перед ретюрном
-        System.out.println(directs.toString());
+        }
         return directs;
     }
 }
@@ -68,10 +64,12 @@ class Directions {
 class Corridors {
     int number;// номер корридора, задается в трехзначном формате "101"
     //1 (103) - означает западный торец (W), 2 (203) - восточный (E), где 03 - номер корридора
-    int lines_number;// номер полосы
+    int lines;// номер полосы
     String side;// какой торец полосы используется
     boolean status;
-    Corridors(String s,int lines){
+    Corridors(String s,int lines,int number){
+        this.lines = lines;
+        this.number = number;
         if (s.equals("NW")){
             side = "W1";
         }
@@ -84,10 +82,6 @@ class Corridors {
         if (s.equals("SE")){
             side = "E2";
         }
-        else{
-            System.out.println("Задан неправильнй номер полосы!");
-        }
-
     }
 }
 
