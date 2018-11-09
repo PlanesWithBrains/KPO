@@ -20,13 +20,13 @@ import sample.TableFlight;
 
 
 public class demoController {
-    static String PATH; //поле пути к джсону
+    static String PATH_INPUT = "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
+    static String PATH_OUTPUT = "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
+    @FXML
+    private ResourceBundle resources;
 
     @FXML
-    private ResourceBundle resources; //хуйня чисто для scene builder
-
-    @FXML
-    private URL location;  //хуйня чисто для scene builder
+    private URL location;
 
     @FXML
     private TableView<TableFlight> TableIN; //окно таблицы
@@ -66,13 +66,13 @@ public class demoController {
         columnTime.setCellValueFactory(new PropertyValueFactory<TableFlight,String>("time"));
 
         //добавление в таблицу записей
-        TableIN.setItems(getFlights(demoController.PATH));
+        TableIN.setItems(getFlights(demoController.PATH_INPUT));
         //раскраска записей
         TableIN.setRowFactory((TableView<TableFlight> paramP) -> new TableRow<TableFlight>() {
             @Override
             protected void updateItem(TableFlight tf, boolean paramBoolean) {
                 if (tf != null) {
-                    if (tf.getStatus() == false) //если есть экстренная ситуация - красим в красный
+                    if (!tf.getStatus()) //если есть экстренная ситуация - красим в красный
                         setStyle("-fx-background-color: LIGHTCORAL; -fx-text-background-color: black;");
                     else //если нет - в серый
                         setStyle("-fx-background-color: LIGHTGREY; -fx-text-background-color: black;");
@@ -87,12 +87,13 @@ public class demoController {
     }
 
     //считывам джсон
+
     public ObservableList<TableFlight> getFlights(String PATH) {
         Gson gson = new Gson(); //сашкина либа для десериализации
         Flight[] temp = new Flight[1]; // буфер
         try {
             BufferedReader reader = new BufferedReader(new FileReader(PATH));
-             temp = gson.fromJson(reader, Flight[].class);
+            temp = gson.fromJson(reader, Flight[].class);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -106,5 +107,17 @@ public class demoController {
             buf.add(bufTable);
         }
         return buf;
+    }
+    public Flight[] getFlights(String PATH_OUTPUT, boolean flag) { //ДЕССЕРИАЛИЗАТОР
+        Gson gson = new Gson(); //сашкина либа для десериализации
+        Flight[] temp = new Flight[1]; // буфер
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(PATH_INPUT));
+            temp = gson.fromJson(reader, Flight[].class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return temp;
     }
 }

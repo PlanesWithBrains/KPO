@@ -2,17 +2,11 @@ package sample;
 
 import java.util.*;
 
-enum Direction{
-    NorthWest,NorthEast,East,West,SouthWest,SouthEast
-}
+
 
 public class Airport { // Класс для описания аэропорта (ТОЛЬКО ДЛЯ ЭТОГО)
-    //ArrayList<Plane> planes; // массив самолетов (классов судов,которые принимает аэропорт)
-    //Vector<Lines> lines;// вектор с информацией о полосах
     HashMap<Integer,Boolean> lines;
     HashMap<Direction,Corridors> directions; // маршруты для взлета
-
-    // возможно, стоит дописать отдельные класы для двух полей выше(?)
      Airport(){
         int numbOfLines = 2;
         Directions direct = new Directions();
@@ -24,8 +18,7 @@ public class Airport { // Класс для описания аэропорта 
 class Lines {
     int numb;
     boolean status;
-
-    HashMap<Integer,Boolean> GetLines(int count){ // count количество полос, longL их длина
+    HashMap<Integer,Boolean> GetLines(int count){
         HashMap<Integer,Boolean> longV = new HashMap<Integer, Boolean>();
          for(int i=0;i<count;i++){
              this.numb = i;

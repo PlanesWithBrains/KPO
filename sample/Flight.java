@@ -1,7 +1,6 @@
 package sample;
 
-import java.sql.Time;
-import java.time.*;
+import java.time.LocalTime;
 
 enum Airline{
     SBI,//S7,
@@ -12,36 +11,46 @@ enum Airline{
     QTR,//QatarAirways,
     UAE//EmiratesAirline
 }
+enum Direction{
+    NorthWest,NorthEast,East,West,SouthWest,SouthEast
+}
 /**
  *
  * @author Дмитрий Соловьев
  */
 public class Flight{
-    Airline carrier; //авиакомпания
-    int number; //номер рейса
-    Plane plane;//самолет
-    boolean status; //есть ли экстренная ситуация
+    Airline carrier;
+    int number;
+    Plane plane;
+    Direction direction;
+    LocalTime time;
+    boolean status;
     int distance;
     int hight;
-    LocalTime time;
-    boolean landingStatus;//совершена ли посадка
-    Direction direction;
-    String arrivalFrom;// TODO для демки в генератор необходиом добавить направление,с которого прибывает самолет
-    //TODO направления аналогичны тем,что указаны в классе Airport
-    Flight(Plane P, Airline NameCompany, int numb, boolean state, int distanc, int Hight, String arrival){
+
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t, boolean state, int dist, int hig){ //для посадки
         this.plane = P;
         this.carrier = NameCompany;
         this.number = numb;
+        this.direction = dir;
+        this.time = t;
         this.status = state;
-        this.distance = distanc;
-        this.hight = Hight;
-        this.arrivalFrom = arrival;
+        this.distance = dist;
+        this.hight = hig;
     }
 
-    String getCarrier(){ //toString
+    Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t){ //для взлета
+        this.plane = P;
+        this.carrier = NameCompany;
+        this.number = numb;
+        this.direction = dir;
+        this.time = t;
+        this.status = true;
+        this.distance = 0;
+        this.hight = 0;
+    }
+    String getCarrier(){
         return carrier.name();
     }
 
 }
-
-

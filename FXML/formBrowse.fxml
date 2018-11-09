@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BrowseController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BrowseController">
    <columnConstraints>
       <ColumnConstraints maxWidth="171.0" minWidth="10.0" prefWidth="171.0" />
       <ColumnConstraints maxWidth="394.0" minWidth="313.0" prefWidth="313.0" />
@@ -18,20 +18,24 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane prefHeight="354.0" prefWidth="302.0" GridPane.columnIndex="1">
+      <AnchorPane prefHeight="399.0" prefWidth="313.0" GridPane.columnIndex="1">
          <children>
-            <TextArea fx:id="FieldPath" layoutX="47.0" layoutY="86.0" prefHeight="37.0" prefWidth="231.0" text="D:\test.json" />
+            <TextArea fx:id="FieldPathIN" layoutX="48.0" layoutY="104.0" prefHeight="37.0" prefWidth="231.0" text="D:\testINPUT.json" />
             <Text fill="#602290" layoutX="47.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose file for processing">
                <font>
                   <Font size="16.0" />
                </font>
             </Text>
-            <Button fx:id="BTNbrowse" layoutX="210.0" layoutY="132.0" mnemonicParsing="false" onAction="#fileChooser" prefHeight="31.0" prefWidth="68.0" text="Browse..." />
-            <Button fx:id="BTNschedule" layoutX="90.0" layoutY="223.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="146.0" style="-fx-background-color: #602290;" text="Schedule" textFill="WHITE">
+            <Button fx:id="BTNbrowseIN" layoutX="211.0" layoutY="150.0" mnemonicParsing="false" onAction="#fileChooserIN" prefHeight="31.0" prefWidth="68.0" text="Browse..." />
+            <Button fx:id="BTNschedule" layoutX="90.0" layoutY="318.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="146.0" style="-fx-background-color: #602290;" text="Schedule" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
+            <TextArea fx:id="FieldPathOUT" layoutX="48.0" layoutY="218.0" prefHeight="37.0" prefWidth="231.0" text="D:\testOUTPUT.json" />
+            <Button fx:id="BTNbrowseOUT" layoutX="211.0" layoutY="264.0" mnemonicParsing="false" onAction="#fileChooserOUT" prefHeight="31.0" prefWidth="68.0" text="Browse..." />
+            <Text fill="#602290" layoutX="48.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ARRIVAL" />
+            <Text fill="#602290" layoutX="48.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEPARTURE" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #602290;" />
