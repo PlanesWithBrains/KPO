@@ -1,5 +1,5 @@
 package sample;
-
+import Controllers.demoController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,8 +22,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
         /* вызов логики */
-        System.out.println("Рейс "+"/t"+"Направление"+"/t"+"Действие"+"/t"+"Время расп."+"/t"+"Корр."+"/t"+"Сторона"+"t"+"Полоса"+"/t"+"Факт.время");
-        Proccess pr = new Proccess("массив прилетающих","массив вылетающих");
+        System.out.println("Рейс "+"\t"+"Направление"+"\t"+"Действие"+"\t"+"Время расп."+"\t"+"Корр."+"\t"+"Сторона"+"\t"+"Полоса"+"\t"+"Факт.время");
+        Proccess pr = new Proccess(demoController.getFlights(demoController.PATH_INPUT, true),demoController.getFlights(demoController.PATH_OUTPUT, true));
 
     }
 }

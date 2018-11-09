@@ -20,8 +20,8 @@ import sample.TableFlight;
 
 
 public class demoController {
-    static String PATH_INPUT = "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
-    static String PATH_OUTPUT = "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
+    public static String PATH_INPUT = "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
+    public static String PATH_OUTPUT = "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
     @FXML
     private ResourceBundle resources;
 
@@ -73,7 +73,7 @@ public class demoController {
             protected void updateItem(TableFlight tf, boolean paramBoolean) {
                 if (tf != null) {
                     if (!tf.getStatus()) //если есть экстренная ситуация - красим в красный
-                        setStyle("-fx-background-color: LIGHTCORAL; -fx-text-background-color: black;");
+                        setStyle("-fx-background-color: LIGHTGREY; -fx-text-background-color: black;");//потом вернуть красный
                     else //если нет - в серый
                         setStyle("-fx-background-color: LIGHTGREY; -fx-text-background-color: black;");
 
@@ -108,7 +108,7 @@ public class demoController {
         }
         return buf;
     }
-    public Flight[] getFlights(String PATH_OUTPUT, boolean flag) { //ДЕССЕРИАЛИЗАТОР
+    static public Flight[] getFlights(String PATH_OUTPUT, boolean flag) { //ДЕССЕРИАЛИЗАТОР
         Gson gson = new Gson(); //сашкина либа для десериализации
         Flight[] temp = new Flight[1]; // буфер
         try {

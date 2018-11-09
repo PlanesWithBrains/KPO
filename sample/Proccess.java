@@ -7,21 +7,30 @@ import java.time.*;
 public class Proccess {// класс для обработки объектов Plane, те осуществление ранжирования по приоритетам
     // для посадки. Первый приоритет высота (от наим к наиб), второй - удаленность (аналогично),
     // макс удаленность(200 км), минимальная высота (1200м.) макс (2.700м.)
-    Flight[] flight;// прилетающие самолеты
-    Flight[] flightD;//вылетающие самолеты
+    Flight[] flightA;// прилетающие самолеты
+    Flight[] flightD;
+    Flight[] flight;//вылетающие самолеты
     LocalTime time;
     Airport airport = new Airport();
     Proccess(Flight[] flightA,Flight[] flightD){
-        this.flight = flightA;
+
+        this.flightA = flightA;
         this.flightD = flightD;
-        MakingSingleRegister(flight,flightD);
+        Flight[] flight = new Flight[flightA.length+flightD.length];
+        try {
+            MakingSingleRegister(flightA, flightD);
+        }
+        catch (Exception e ){e.printStackTrace();}
         GetCommand();
 
     }
     public void MakingSingleRegister(Flight[] flight,Flight[] flightD){ // вызывать первой
         Flight temp;
-        for (int i = flight.length + 1,j = 0; j < flightD.length; i++,j++){
-           flight[i] = flightD[j]; // записываем все в один массив
+        for (int i = 0,j = 0; j < flightD.length; i++,j++){
+           flight[i] = flightA[j]; // записываем все в один массив
+        }
+        for (int i = 0,j = 0; j < flightD.length; i++,j++){
+            flight[i] = flightD[j]; // записываем все в один массив
         }
         for (int j = 0;j < flight.length; j++) {
             for (int i = 0; i < flight.length - 1; i++) {

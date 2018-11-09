@@ -7,9 +7,14 @@ public class FinalTable {
     Corridors cor;//корридор
     int line;//полоса
     LocalTime time;//время посадки
+    String statusF;
     FinalTable(Flight flight,Corridors cor,int line,LocalTime time,String statusF){
-        System.out.println(flight.number+"/t"+flight.carrier+"/t"+statusF+"/t"+flight.direction.toString()+"/t"+flight.time+"/t"+cor.number+"/t"+cor.side+"/t"+line+"/t"+time);
-
+        this.flight = flight;
+        this.cor = cor;
+        this.line = line;
+        this.time = time;
+        this.statusF = statusF;
+        System.out.println(flight.number+"\t"+flight.carrier+"\t"+statusF+"\t"+flight.direction.toString()+"\t"+flight.time+"\t"+cor.number+"\t"+cor.side+"\t"+line+"\t"+time);
     }
 
 }
