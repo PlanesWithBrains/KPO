@@ -2,8 +2,6 @@ package sample;
 
 import java.util.*;
 
-
-
 public class Airport { // Класс для описания аэропорта (ТОЛЬКО ДЛЯ ЭТОГО)
     HashMap<Integer,Boolean> lines;
     HashMap<Direction,Corridors> directions; // маршруты для взлета

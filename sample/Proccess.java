@@ -3,18 +3,17 @@ package sample;
 import java.util.Arrays;
 import java.time.*;
 
-public class Proccess {
+public class Proccess{
     Flight[] flightA;// прилетающие самолеты
     Flight[] flightD;
     static LocalTime time1;
     static LocalTime time2;
-    Corridors cor;
-    Flight temp,ttemp;
-    String statusF;
-    static FinalTable[] Table;//
-    Airport airport = new Airport();
+    private Corridors cor;
+    private String statusF;
+    FinalTable[] Table;//
+    FinalTable table;//
+    private Airport airport = new Airport();
     Proccess(Flight[] flightA,Flight[] flightD){
-
         this.flightA = flightA;
         this.flightD = flightD;
         Flight[] flight = new Flight[flightA.length+flightD.length];
@@ -22,18 +21,20 @@ public class Proccess {
             flight = MakingSingleRegister(flightA, flightD);
         }
         catch (Exception e ){e.printStackTrace();}
+        this.Table = new FinalTable[flight.length];
         try {
             GetCommand(flight);
         }
         catch (Exception e ){e.printStackTrace();}
+
     }
     public Flight[] MakingSingleRegister(Flight[] flightA,Flight[] flightD){ // вызывать первой
         Flight temp;
         Flight[] flight = new Flight[flightA.length+flightD.length];
-        for (int i = 0,j = 0; j < flightA.length; i++,j++){
-           flight[i] = flightA[j]; // записываем все в один массив
+        for (int j = 0; j < flightA.length;j++){
+           flight[j] = flightA[j]; // записываем все в один массив
         }
-        for (int i = flightD.length,j = 0; j < flightD.length; i++,j++){
+        for (int i = flightA.length,j = 0; j < flightD.length; i++,j++){
             flight[i] = flightD[j]; // записываем все в один массив
         }
         int n = flight.length;
@@ -51,12 +52,9 @@ public class Proccess {
         return flight;
     }
     public void GetCommand(Flight[] flight){
-        //Corridors cor;
-        //Flight temp,ttemp;
-        //String statusF;
         boolean flag;
+        Flight temp,ttemp;
         int fflag = 0;
-        //time = flight[0].time;
         for(int i = 0;i < flight.length;i++) {
             boolean f1 = false, f2 = false;  //флаги для первой и второй полосы по приоритетности
             flag = false;
@@ -64,24 +62,21 @@ public class Proccess {
                 // определение времени для полос
                 f2 = true;
                 if(i == 0 || i == 1) {
-                    if (i == 0) {
+                    if (i == 0)
                         time2 = flight[i].time;
-                    }
-                    if (i == 1) {
+                    if (i == 1)
                         time1 = flight[i].time;
-                    }
                 }
             }
             if ((Arrays.asList("NorthWest", "West", "NorthEast", "East")).contains(flight[i].direction.toString())) {
                 f1 = true;
                 if(i == 0 || i == 1) {
-                    if (i == 0) {
-                        time1 = flight[0].time;
-                    }
-                    if (i == 1) {
-                        time2 = flight[1].time;
-                    }
+                    if (i == 0)
+                        time1 = flight[i].time;
+                    if (i == 1)
+                        time2 = flight[i].time;
                 }
+
             }
             if ((Arrays.asList("East", "West")).contains(flight[i].direction.toString())) {
                 if (time1.isBefore(time2) && !flag) {
@@ -94,69 +89,16 @@ public class Proccess {
                 }
             }
             if ((Arrays.asList("SouthWest", "West")).contains(flight[i].direction.toString()) && !flag && f2) {
-                /*cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
-                if (flight[i].hight != 0) {
-                    time2 = time2.plusMinutes(6);
-                    statusF = "Посадка";
-                    Table[i] = new FinalTable(flight[i], cor, 2, time2, statusF);
-                    //FT
-                }
-                if (flight[i].hight == 0) {
-                    time2 = time2.plusMinutes(5);
-                    statusF = "Взлет";
-                    Table[i] = new FinalTable(flight[i], cor, 2, time2, statusF);
-
-                }
-                airport.lines.replace(1, true);
-                flag = true;*/
                 flag=GetInstructions(flight,i,flag,f2);
             }
             if ((Arrays.asList("SouthEast", "East")).contains(flight[i].direction.toString()) && !flag && f2) {
-                /*cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
-                if (flight[i].hight != 0) {
-                    time2 = time2.plusMinutes(6);
-                    statusF = "Посадка";
-                    Table[i] = new FinalTable(flight[i], cor, 2, time2, statusF);
-                }
-                if (flight[i].hight == 0) {
-                    time2 = time2.plusMinutes(5);
-                    statusF = "Взлет";
-                    Table[i] = new FinalTable(flight[i], cor, 2, time2, statusF);
-                }
-                airport.lines.replace(1, true);
-                flag = true;*/
                 flag=GetInstructions(flight,i,flag,f2);
             }
-            if ((Arrays.asList("NorthWest", "West")).contains(flight[i].direction.toString()) && !flag && f1) { // я не уверен во втором условии!
-                /*cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
-                if (flight[i].hight != 0) {
-                    time1 = time1.plusMinutes(7);
-                    statusF = "Посадка";
-                    Table[i] = new FinalTable(flight[i], cor, 1, time1, statusF);
-                }
-                if (flight[i].hight == 0) {
-                    statusF = "Взлет";
-                    time1 = time1.plusMinutes(6);
-                    Table[i] = new FinalTable(flight[i], cor, 1, time1, statusF);
-                }
-                airport.lines.replace(0, true);
-                flag = true;*/
+            if ((Arrays.asList("NorthWest", "West")).contains(flight[i].direction.toString()) && !flag && f1) {
+                //на вид вызовы схожи, но оставлены оба, для дальнейшей TODO работы с соответствием торцов!
                 flag=GetInstructions(flight,i,flag,f1);
             }
             if ((Arrays.asList("NorthEast", "East")).contains(flight[i].direction.toString()) && !flag && f1) {
-                /*cor = (airport.directions.get(flight[i].direction));
-                if (flight[i].hight != 0) {
-                    time1 = time1.plusMinutes(7);
-                    statusF = "Посадка";
-                    Table[i] = new FinalTable(flight[i], cor, 1, time1, statusF);
-                }
-                if (flight[i].hight == 0) {
-                    time1 = time1.plusMinutes(6);
-                    statusF = "Взлет";
-                    Table[i] = new FinalTable(flight[i], cor, 1, time1, statusF);
-                }
-                airport.lines.replace(0, true);
-                flag = true;*/
                 flag=GetInstructions(flight,i,flag,f1);
             }
             if (!flag) {
@@ -186,12 +128,14 @@ public class Proccess {
             if (flight[i].hight != 0) {
                 time1 = time1.plusMinutes(7);
                 statusF = "Посадка";
-                Table[i] = new FinalTable(flight[i], cor, 1, time1, statusF);
+                table = new FinalTable(flight[i], cor, 1, time1, statusF);
+                Table[i] = table;
             }
             if (flight[i].hight == 0) {
                 time1 = time1.plusMinutes(6);
                 statusF = "Взлет";
-                Table[i] = new FinalTable(flight[i], cor, 1, time1, statusF);
+                table = new FinalTable(flight[i], cor, 1, time1, statusF);
+                Table[i] = table;
             }
             airport.lines.replace(0, true);
             flag = true;
@@ -201,12 +145,14 @@ public class Proccess {
             if (flight[i].hight != 0) {
                 time2 = time2.plusMinutes(6);
                 statusF = "Посадка";
-                Table[i] = new FinalTable(flight[i], cor, 2, time2, statusF);
+                table = new FinalTable(flight[i], cor, 2, time2, statusF);
+                Table[i] = table;
             }
             if (flight[i].hight == 0) {
                 time2 = time2.plusMinutes(5);
                 statusF = "Взлет";
-                Table[i] = new FinalTable(flight[i], cor, 2, time2, statusF);
+                table = new FinalTable(flight[i], cor, 2, time2, statusF);
+                Table[i] = table;
             }
             airport.lines.replace(1, true);
             flag = true;

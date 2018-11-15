@@ -16,5 +16,14 @@ public class FinalTable {
         this.statusF = statusF;
         //System.out.println(flight.number+""+flight.carrier+"\t"+statusF+"\t"+"\t"+flight.direction.toString()+"\t"+"\t"+flight.time+"\t"+cor.number+"\t"+cor.side+"\t"+line+"\t"+time);
     }
+    /*FinalTable GetValues(FinalTable table){
+        //FinalTable ft;
+        this.flight = table.flight;
+        this.cor = table.cor;
+        this.line = table.line;
+        this.time = table.time;
+        this.statusF = table.statusF;
+        return
+    }*/
 
 }
