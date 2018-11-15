@@ -89,7 +89,7 @@ public class Proccess{
                 }
             }
             if ((Arrays.asList("SouthWest", "West")).contains(flight[i].direction.toString()) && !flag && f2) {
-                flag=GetInstructions(flight,i,flag,f2);
+                flag=GetInstructions(flight,i,flag,f2);// возвращает статус занятости корридора
             }
             if ((Arrays.asList("SouthEast", "East")).contains(flight[i].direction.toString()) && !flag && f2) {
                 flag=GetInstructions(flight,i,flag,f2);
@@ -123,6 +123,7 @@ public class Proccess{
         }
     }
     boolean GetInstructions(Flight[] flight,int i,boolean flag,boolean f){
+        boolean corStatus = false;
         if((Arrays.asList("NorthWest", "West","NorthEast", "East")).contains(flight[i].direction.toString())&& f) {
             cor = (airport.directions.get(flight[i].direction));
             if (flight[i].hight != 0) {
@@ -138,7 +139,9 @@ public class Proccess{
                 Table[i] = table;
             }
             airport.lines.replace(0, true);
-            flag = true;
+            cor.status = true;//присваеваем полосе статус "занятости"
+            corStatus = cor.status;// перезапись для того,чтобы вернуть и сохранить логику
+            //flag = true;
         }
         if ((Arrays.asList("SouthWest", "West", "SouthEast", "East")).contains(flight[i].direction.toString())&& f) {
             cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
@@ -155,9 +158,10 @@ public class Proccess{
                 Table[i] = table;
             }
             airport.lines.replace(1, true);
-            flag = true;
+            cor.status = true;
+            corStatus = cor.status;
         }
-        return flag;
+        return corStatus;
     }
     FinalTable[] GetTable(){
         return Table;

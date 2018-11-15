@@ -15,7 +15,6 @@ public class Airport { // Класс для описания аэропорта 
 }
 class Lines {
     int numb;
-    boolean status;
     HashMap<Integer,Boolean> GetLines(int count){
         HashMap<Integer,Boolean> longV = new HashMap<Integer, Boolean>();
          for(int i=0;i<count;i++){
@@ -24,12 +23,11 @@ class Lines {
          }
          return longV;
     }
-
 }
 
 class Directions {
     Direction[] directL = Direction.values();
-    int NW = 100,NE = 100, SW = 200, SE = 200;
+    int NW = 100,NE = 110, SW = 200, SE = 210;
     HashMap<Direction,Corridors> directs = new HashMap<Direction,Corridors>();
     public HashMap<Direction,Corridors> getDirect(){
         for (int i=0;i<6;i++){
@@ -43,7 +41,6 @@ class Directions {
                 directs.put(directL[i],cor);
                 NE++;
             }
-
             if((Arrays.asList("SouthWest","West")).contains(directL[i].toString()) ){
                 Corridors cor = new Corridors("SW",2,SW);
                 directs.put(directL[i],cor);
@@ -61,25 +58,21 @@ class Directions {
 
 class Corridors {
     int number;// номер корридора, задается в трехзначном формате "101"
-    //1 (103) - означает западный торец (W), 2 (203) - восточный (E), где 03 - номер корридора
+    //1 (103) - означает западный торец (NW - направление(0)), где 3 - номер корридора
     int lines;// номер полосы
     String side;// какой торец полосы используется
     boolean status;
     Corridors(String s,int lines,int number){
         this.lines = lines;
         this.number = number;
-        if (s.equals("NW")){
+        if (s.equals("NW"))
             side = "W1";
-        }
-        if (s.equals("NE")){
+        if (s.equals("NE"))
             side = "E1";
-        }
-        if (s.equals("SW")){
+        if (s.equals("SW"))
             side = "W2";
-        }
-        if (s.equals("SE")){
+        if (s.equals("SE"))
             side = "E2";
-        }
     }
 }
 
