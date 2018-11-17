@@ -13,7 +13,7 @@ public class Proccess{
     FinalTable[] Table;//
     FinalTable table;//
     private Airport airport = new Airport();
-    Proccess(Flight[] flightA,Flight[] flightD){
+    public Proccess(Flight[] flightA, Flight[] flightD){
         this.flightA = flightA;
         this.flightD = flightD;
         Flight[] flight = new Flight[flightA.length+flightD.length];
@@ -163,7 +163,7 @@ public class Proccess{
         }
         return corStatus;
     }
-    FinalTable[] GetTable(){
+    public FinalTable[] GetTable(){
         return Table;
     }
 

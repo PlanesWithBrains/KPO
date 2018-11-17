@@ -71,7 +71,7 @@ public class BrowseController {
                 e.printStackTrace();
             }
 
-            Scene scene = new Scene(root,1366,768); //выставляем его размеры
+            Scene scene = new Scene(root); //выставляем его размеры
             Stage stage = new Stage(); //хуйня чисто для scene builder
             stage.setTitle("Planes with Branes ©Hobots inc (DEMO)"); //название окна
 

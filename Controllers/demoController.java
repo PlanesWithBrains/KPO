@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Time;
 import java.util.*;
 
 import com.google.gson.Gson;
@@ -16,13 +15,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import sample.Flight;
-import sample.TableFlight;
+import sample.*;
 
 
 public class demoController {
-    public static String PATH_INPUT = "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
-    public static String PATH_OUTPUT = "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
+    static public String PATH_INPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
+    static public String PATH_OUTPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
     @FXML
     private ResourceBundle resources;
 
@@ -30,53 +28,84 @@ public class demoController {
     private URL location;
 
     @FXML
-    private TableView<TableFlight> TableIN; //окно таблицы
+    private TableView<TablePlaneIN> TableIN; //окно таблицы
 
     //колонки таблицы
-    @FXML
-    private TableColumn<TableFlight, String> columnAirline;
 
     @FXML
-    private TableColumn<TableFlight, Integer> columnNumber;
+    private TableColumn<TablePlaneIN, String> columnTrip;
 
     @FXML
-    private TableColumn<TableFlight, String> columnPlane;
+    private TableColumn<TablePlaneIN, String> columnDO;
 
     @FXML
-    private TableColumn<TableFlight, String> columnTime;
+    private TableColumn<TablePlaneIN, String> columnDirect;
 
     @FXML
-    private TableColumn<TableFlight, String> columnRunway;
+    private TableColumn<TablePlaneIN, String> columnTime;
 
     @FXML
-    private TableColumn<TableFlight, String> columnRoute;
+    private TableColumn<TablePlaneIN, Integer> columnCorNumb;
 
     @FXML
-    private TableColumn<TableFlight, String> columnParking;
+    private TableColumn<TablePlaneIN, String> columnCorSide;
+
+    @FXML
+    private TableColumn<TablePlaneIN, Integer> columnRunway;
+
+    @FXML
+    private TableColumn<TablePlaneIN, String> columnTimeFact;
 
     //инициализация окна
     @FXML
     void initialize() {
         //привязка значений колонок к значениям табличного класса (создан специально для таблицы)
-        columnAirline.setCellValueFactory(new PropertyValueFactory<TableFlight, String>("airline"));
-        columnNumber.setCellValueFactory(new PropertyValueFactory<TableFlight, Integer>("number"));
-        columnPlane.setCellValueFactory(new PropertyValueFactory<TableFlight, String>("plane"));
-        columnRunway.setCellValueFactory(new PropertyValueFactory<TableFlight, String>("runway"));
-        columnRoute.setCellValueFactory(new PropertyValueFactory<TableFlight, String>("route"));
-        columnParking.setCellValueFactory(new PropertyValueFactory<TableFlight, String>("parking"));
-        columnTime.setCellValueFactory(new PropertyValueFactory<TableFlight,String>("time"));
+        columnTrip.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("trip"));
+        columnDO.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("statusF"));
+        columnDirect.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("direction"));
+        columnCorNumb.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("corNumb"));
+        columnCorSide.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("corSide"));
+        columnRunway.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("runway"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("time"));
+        columnTimeFact.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("timeFact"));
+
 
         //добавление в таблицу записей
-        TableIN.setItems(getFlights(demoController.PATH_INPUT));
-        //раскраска записей
-        TableIN.setRowFactory((TableView<TableFlight> paramP) -> new TableRow<TableFlight>() {
+        FinalTable[] tab;
+        FinalTable temp;
+
+        /* вызов логики */
+        System.out.println("Рейс " + "\t" + "Действие" + "\t" + "Направление" + "\t" + "Время расп." + "\t" + "Корр." + " " + "Стор." + " " + "Полосa" + "\t" + "Факт.время");
+        Proccess pr = new Proccess(demoController.getFlights(demoController.PATH_INPUT, true), demoController.getFlights(demoController.PATH_OUTPUT, true));
+        tab = pr.GetTable();
+        int n = tab.length;
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i += 1) {
+                temp = tab[i];
+                int j;
+                for (j = i; j >= gap && tab[j - gap].time.isAfter(temp.time); j -= gap)
+                    tab[j] = tab[j - gap];
+                tab[j] = temp;
+            }
+        }
+        for (int i = 0; i < tab.length; i++) {
+            System.out.println(tab[i].flight.number + "" + tab[i].flight.carrier + "\t" + tab[i].statusF + "\t" + "\t" + tab[i].flight.dir_toString() + "\t" + "\t" + tab[i].flight.time + "\t" + tab[i].cor.GetNumber() + "\t" + tab[i].cor.GetSide() + "\t" + tab[i].line + "\t" + tab[i].time);
+        }
+
+
+
+        TableIN.setItems(getFlights(tab)); //добавить записи
+
+
+        //раскраска записей c экстренной ситуацией
+        TableIN.setRowFactory((TableView<TablePlaneIN> paramP) -> new TableRow<TablePlaneIN>() {
             @Override
-            protected void updateItem(TableFlight tf, boolean paramBoolean) {
+            protected void updateItem(TablePlaneIN tf, boolean paramBoolean) {
                 if (tf != null) {
                     if (!tf.getStatus()) //если есть экстренная ситуация - красим в красный
-                        setStyle("-fx-background-color: LIGHTGREY; -fx-text-background-color: black;");//потом вернуть красный
-                    else //если нет - в серый
-                        setStyle("-fx-background-color: LIGHTGREY; -fx-text-background-color: black;");
+                        setStyle("-fx-background-color: LIGHTCORAL; -fx-text-background-color: black;");
+                    //else //если нет - в серый
+                        //setStyle("-fx-background-color: WHITE; -fx-text-background-color: black;");
 
                 } else {
                     setStyle(null);
@@ -87,28 +116,18 @@ public class demoController {
 
     }
 
-    //считывам джсон
 
-    public ObservableList<TableFlight> getFlights(String PATH) {
-        Gson gson = new Gson(); //сашкина либа для десериализации
-        Flight[] temp = new Flight[1]; // буфер
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(PATH));
-            temp = gson.fromJson(reader, Flight[].class);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        //делаем из полетов, которые считали, лист для табличной работы
-        ObservableList<TableFlight> buf = FXCollections.observableArrayList();
+    //FinalTable to -> TablePlaneIN (класс логики антона -> класс вывода в таблицу)
+    public ObservableList<TablePlaneIN> getFlights(FinalTable temp[]) {
+        ObservableList<TablePlaneIN> buf = FXCollections.observableArrayList();
         for (int i = 0; i < temp.length; i++){
-            //ВОТ ЗДЕСЬ НЕОБХОДИМО ДОБАВИТЬ ЛОГИКУ
-            //типо сортировку, в зависимости от которой он будет выставлять полосу, путь, парковочное место и время посадки
-            TableFlight bufTable = new sample.TableFlight( temp[i], "VPP", "DEFrout", "DEFpark",new Time(20,20,0));
+            TablePlaneIN bufTable = new sample.TablePlaneIN(temp[i]);
             buf.add(bufTable);
         }
         return buf;
     }
+
+    //считывам джсон
     static public Flight[] getFlights(String PATH, boolean flag) { //ДЕССЕРИАЛИЗАТОР
         Gson gson = new Gson(); //сашкина либа для десериализации
         Flight[] temp = new Flight[1]; // буфер
@@ -121,7 +140,6 @@ public class demoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return temp;
     }
 }
