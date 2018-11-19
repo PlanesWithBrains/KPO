@@ -3,13 +3,13 @@ package sample;
 import java.time.LocalTime;
 
 enum Airline{
-    SBI,//S7,
-    AFL,//Аэрофлот,
-    NWS,//Nordwind,
-    AZO, //Азимут
-    PBD,//Победа,
-    QTR,//QatarAirways,
-    UAE//EmiratesAirline
+    S7,//S7,
+    SU,//Аэрофлот,
+    N4,//Nordwind,
+    A4, //Азимут
+    DP,//Победа,
+    QR,//QatarAirways,
+    EK//EmiratesAirline
 }
 enum Direction{
     NorthWest,NorthEast,East,West,SouthWest,SouthEast

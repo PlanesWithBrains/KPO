@@ -16,6 +16,10 @@ public class Proccess{
     Proccess(Flight[] flightA,Flight[] flightD){
         this.flightA = flightA;
         this.flightD = flightD;
+        try {
+            this.flightA = SetTime(flightA);
+        }
+        catch (Exception e ){e.printStackTrace();}
         Flight[] flight = new Flight[flightA.length+flightD.length];
         try {
             flight = MakingSingleRegister(flightA, flightD);
@@ -28,6 +32,21 @@ public class Proccess{
         catch (Exception e ){e.printStackTrace();}
 
     }
+    public Flight[] SetTime(Flight[] flightA){
+        LocalTime time;
+        Flight temp;
+        time = flightA[0].time;
+        time = time.plusMinutes(2);
+        for(int i=1;i<flightA.length;i++){
+            int dist = (flightA[i].distance-flightA[i-1].distance)*1000;
+            dist = (int)(dist/(500/3.6));
+            time = time.plusSeconds(dist);
+            time = time.minusMinutes(1);
+            flightA[i].time = time;
+        }
+        return flightA;
+    }
+
     public Flight[] MakingSingleRegister(Flight[] flightA,Flight[] flightD){ // вызывать первой
         Flight temp;
         Flight[] flight = new Flight[flightA.length+flightD.length];
