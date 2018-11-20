@@ -1,5 +1,5 @@
 package sample;
-import Controllers.demoController;
+import Controllers.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../FXML/formBrowse.fxml")); //загружаем fxml стартового окна
+        Parent root = FXMLLoader.load(getClass().getResource("../FXML/Start.fxml")); //загружаем fxml стартового окна
 
         Scene scene = new Scene(root);
         stage.setTitle("Planes with Branes ©Hobots inc (DEMO)"); //название окна
@@ -21,7 +21,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        //твоя логика перекочевала в -> demoController
 
     }
 

@@ -18,7 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import sample.*;
 
 
-public class demoController {
+public class DemoController {
     static public String PATH_INPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
     static public String PATH_OUTPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
     @FXML
@@ -76,18 +76,9 @@ public class demoController {
 
         /* вызов логики */
         System.out.println("Рейс " + "\t" + "Действие" + "\t" + "Направление" + "\t" + "Время расп." + "\t" + "Корр." + " " + "Стор." + " " + "Полосa" + "\t" + "Факт.время");
-        Proccess pr = new Proccess(demoController.getFlights(demoController.PATH_INPUT, true), demoController.getFlights(demoController.PATH_OUTPUT, true));
+        Proccess pr = new Proccess(DemoController.getFlights(DemoController.PATH_INPUT, true), DemoController.getFlights(DemoController.PATH_OUTPUT, true));
         tab = pr.GetTable();
-        int n = tab.length;
-        for (int gap = n / 2; gap > 0; gap /= 2) {
-            for (int i = gap; i < n; i += 1) {
-                temp = tab[i];
-                int j;
-                for (j = i; j >= gap && tab[j - gap].time.isAfter(temp.time); j -= gap)
-                    tab[j] = tab[j - gap];
-                tab[j] = temp;
-            }
-        }
+
         for (int i = 0; i < tab.length; i++) {
             System.out.println(tab[i].flight.number + "" + tab[i].flight.carrier + "\t" + tab[i].statusF + "\t" + "\t" + tab[i].flight.dir_toString() + "\t" + "\t" + tab[i].flight.time + "\t" + tab[i].cor.GetNumber() + "\t" + tab[i].cor.GetSide() + "\t" + tab[i].line + "\t" + tab[i].time);
         }

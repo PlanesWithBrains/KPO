@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" style="-fx-background-color: #45474a;" vgap="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BrowseController">
+   <columnConstraints>
+      <ColumnConstraints maxWidth="180.0" minWidth="10.0" prefWidth="180.0" />
+      <ColumnConstraints maxWidth="394.0" minWidth="297.0" prefWidth="321.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="399.0" prefWidth="377.0" style="-fx-background-color: #45474a;" GridPane.columnIndex="1">
+         <children>
+            <TextArea fx:id="FieldPathIN" layoutX="9.0" layoutY="102.0" prefHeight="38.0" prefWidth="300.0" style="-fx-background-color: #e5e5e5;" text="D:\testINPUT.json" />
+            <Text fill="#e5e5e5" layoutX="47.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose file for processing">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Button fx:id="BTNbrowseIN" layoutX="211.0" layoutY="150.0" mnemonicParsing="false" onAction="#fileChooserIN" prefHeight="31.0" prefWidth="68.0" style="-fx-background-color: #bbbbbb; -fx-border-color: #45474a; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 0.5;" text="Browse..." />
+            <Button fx:id="BTNschedule" layoutX="90.0" layoutY="318.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="146.0" style="-fx-background-color: #393939; -fx-border-radius: 6; -fx-background-radius: 8; -fx-background-radius: 6; -fx-border-color: #7f7f7f; -fx-background-insets: 0, 0 1 1 0;" text="Schedule" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <TextArea fx:id="FieldPathOUT" layoutX="9.0" layoutY="216.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="300.0" text="D:\testOUTPUT.json" />
+            <Button fx:id="BTNbrowseOUT" layoutX="211.0" layoutY="264.0" mnemonicParsing="false" onAction="#fileChooserOUT" prefHeight="31.0" prefWidth="68.0" style="-fx-background-color: #bbbbbb; -fx-border-color: #45474a; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 0.5;" text="Browse..." />
+            <Text fill="#cccccc" layoutX="48.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ARRIVAL" />
+            <Text fill="#cccccc" layoutX="48.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEPARTURE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="180.0" style="-fx-background-color: #393939;" />
+   </children>
+</GridPane>

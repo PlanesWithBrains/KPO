@@ -16,6 +16,10 @@ public class Proccess{
     public Proccess(Flight[] flightA, Flight[] flightD){
         this.flightA = flightA;
         this.flightD = flightD;
+        try {
+            this.flightA = SetTime(flightA);
+        }
+        catch (Exception e ){e.printStackTrace();}
         Flight[] flight = new Flight[flightA.length+flightD.length];
         try {
             flight = MakingSingleRegister(flightA, flightD);
@@ -26,22 +30,33 @@ public class Proccess{
             GetCommand(flight);
         }
         catch (Exception e ){e.printStackTrace();}
-
+    }
+    public Flight[] SetTime(Flight[] flightA){
+        LocalTime time;
+        Flight temp;
+        time = flightA[0].time;
+        time = time.plusMinutes(2);
+        for(int i=1;i<flightA.length;i++){
+            int dist = (flightA[i].distance-flightA[i-1].distance)*1000;
+            dist = (int)(dist/(500/3.6));
+            time = time.plusSeconds(dist);
+            time = time.minusMinutes(1);
+            flightA[i].time = time;
+        }
+        return flightA;
     }
     public Flight[] MakingSingleRegister(Flight[] flightA,Flight[] flightD){ // вызывать первой
         Flight temp;
         Flight[] flight = new Flight[flightA.length+flightD.length];
         for (int j = 0; j < flightA.length;j++){
-           flight[j] = flightA[j]; // записываем все в один массив
+            flight[j] = flightA[j]; // записываем все в один массив
         }
         for (int i = flightA.length,j = 0; j < flightD.length; i++,j++){
             flight[i] = flightD[j]; // записываем все в один массив
         }
         int n = flight.length;
-        for (int gap = n/2; gap > 0; gap /= 2)
-        {
-            for (int i = gap; i < n; i += 1)
-            {
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i += 1) {
                 temp = flight[i];
                 int j;
                 for (j = i; j >= gap && flight[j - gap].time.isAfter(temp.time); j -= gap)
