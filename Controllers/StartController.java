@@ -54,7 +54,14 @@ public class StartController {
                 e.printStackTrace();
             }
         });
-        btnOpen.setOnAction(event -> {System.out.println("В Разработке!");});
+        btnOpen.setOnAction(event -> {
+            System.out.println("В Разработке!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Открытие существующего расписания");
+            alert.setHeaderText("Функция находится на стадии разработки");
+            alert.setContentText("В скором времени здесь будет что-то крутое :)");
+            alert.showAndWait();
+        });
 
     }
 }
