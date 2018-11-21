@@ -98,6 +98,7 @@ public class BrowseController {
             BTNschedule.getScene().getWindow().hide();//старое окно убираем
             DemoController.PATH_INPUT = FieldPathIN.getText(); //передаем путь в новое окно
             DemoController.PATH_OUTPUT = FieldPathOUT.getText();
+            DemoController.flagOpen = false;
             Parent root = null;
             try {
                 root = FXMLLoader.load(getClass().getResource("../FXML/Demo.fxml")); //загружаем fxml нового окна
@@ -117,6 +118,7 @@ public class BrowseController {
                     alert.setTitle("Выход");
                     alert.setHeaderText("Вы собираетесь закрыть окно без сохранения результатов");
                     alert.setContentText("Вы точно хотите сделать это?");
+
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK){
                         stage.close();

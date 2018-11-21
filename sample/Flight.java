@@ -19,11 +19,11 @@ enum Direction{
  * @author Дмитрий Соловьев
  */
 public class Flight{
-    public Airline carrier;
-    public int number;
+    Airline carrier;
+    int number;
     Plane plane;
-    public Direction direction;
-    public LocalTime time;
+    Direction direction;
+    LocalTime time;
     boolean status;
     int distance;
     int hight;
@@ -38,7 +38,6 @@ public class Flight{
         this.distance = dist;
         this.hight = hig;
     }
-
     Flight(Plane P, Airline NameCompany, int numb, Direction dir, LocalTime t){ //для взлета
         this.plane = P;
         this.carrier = NameCompany;
@@ -49,10 +48,14 @@ public class Flight{
         this.distance = 0;
         this.hight = 0;
     }
-    String getCarrier(){
+
+    public String getCarrier(){
         return carrier.name();
     }
     public String dir_toString(){
         return direction.name();
     }
+    public int getNumber(){return  number;}
+    public Direction getDirection(){return  direction;}
+    public  LocalTime getTime(){return  time;}
 }

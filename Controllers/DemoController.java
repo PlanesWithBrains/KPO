@@ -1,9 +1,6 @@
 package Controllers;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -11,16 +8,23 @@ import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import sample.*;
 
 
 public class DemoController {
-    static public String PATH_INPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
-    static public String PATH_OUTPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
+    static String PATH_INPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
+    static String PATH_OUTPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
+
+    //OPEN/CREATE
+    static FinalTable[] tab;
+    static boolean flagOpen;
+
     @FXML
     private ResourceBundle resources;
 
@@ -56,9 +60,40 @@ public class DemoController {
     @FXML
     private TableColumn<TablePlaneIN, String> columnTimeFact;
 
+    @FXML
+    private Button btnSave;
     //инициализация окна
     @FXML
     void initialize() {
+        btnSave.setOnAction(event -> {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+
+            //директория по умолчанию
+            try {
+                File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\");
+                fc.setInitialDirectory(initialDirectory);
+                fc.setInitialFileName("testSAVE.json");
+            }
+            catch (Exception exp){ //если MAC os
+                System.out.println((char)27 + "[32m"+exp.getMessage());
+            }
+
+            File f = fc.showSaveDialog(null);
+            if (f!= null){
+                Gson gson = new Gson();
+                try(FileWriter wr = new FileWriter(f.getAbsoluteFile())) {
+                    String str = gson.toJson(tab);
+                    wr.write(str);
+                }
+                catch(IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            else
+                System.out.println((char)27 + "[32mWARNING: FileChooser do not save");
+
+        });
         //привязка значений колонок к значениям табличного класса (создан специально для таблицы)
         columnTrip.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("trip"));
         columnDO.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("statusF"));
@@ -70,22 +105,23 @@ public class DemoController {
         columnTimeFact.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("timeFact"));
 
 
-        //добавление в таблицу записей
-        FinalTable[] tab;
-        FinalTable temp;
-
         /* вызов логики */
+        if (!flagOpen) {
+            Proccess pr = new Proccess(DemoController.getFlights(DemoController.PATH_INPUT, true), DemoController.getFlights(DemoController.PATH_OUTPUT, true));
+            tab = pr.GetTable();
+            }
         System.out.println("Рейс " + "\t" + "Действие" + "\t" + "Направление" + "\t" + "Время расп." + "\t" + "Корр." + " " + "Стор." + " " + "Полосa" + "\t" + "Факт.время");
-        Proccess pr = new Proccess(DemoController.getFlights(DemoController.PATH_INPUT, true), DemoController.getFlights(DemoController.PATH_OUTPUT, true));
-        tab = pr.GetTable();
-
         for (int i = 0; i < tab.length; i++) {
-            System.out.println(tab[i].flight.number + "" + tab[i].flight.carrier + "\t" + tab[i].statusF + "\t" + "\t" + tab[i].flight.dir_toString() + "\t" + "\t" + tab[i].flight.time + "\t" + tab[i].cor.GetNumber() + "\t" + tab[i].cor.GetSide() + "\t" + tab[i].line + "\t" + tab[i].time);
+            System.out.println(tab[i].flight.getNumber() + "" + tab[i].flight.getCarrier() + "\t" + tab[i].statusF + "\t" + "\t" + tab[i].flight.dir_toString() + "\t" + "\t" + tab[i].flight.getTime() + "\t" + tab[i].cor.GetNumber() + "\t" + tab[i].cor.GetSide() + "\t" + tab[i].line + "\t" + tab[i].time);
         }
 
-
-
         TableIN.setItems(getFlights(tab)); //добавить записи
+
+
+
+
+
+
 
 
         //раскраска записей c экстренной ситуацией
