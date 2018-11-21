@@ -59,7 +59,7 @@ public class StartController {
                 //блокировка окна
                 stage.initModality(Modality.APPLICATION_MODAL);
 
-                stage.showAndWait();
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
