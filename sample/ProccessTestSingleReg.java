@@ -26,7 +26,7 @@ public class ProccessTestSingleReg {
             Plane pl = new Plane("Boeing 777", 3000, 300);
             Direction[] dr = Direction.values();
             Airline[] ar = Airline.values();
-            flightD[i] = new Flight(pl, ar[i], 125, dr[i], time, false, 200, 4000);
+            flightD[i] = new Flight(pl, ar[i], 125, dr[i], time, false, 0, 0);
             time = time.plusMinutes(1);
         }
         Proccess proc = new Proccess(flightA, flightD);
