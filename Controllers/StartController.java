@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sample.FinalTable;
 import sample.Flight;
+import sample.Main;
 import sample.TablePlaneIN;
 
 public class StartController {
@@ -34,6 +35,9 @@ public class StartController {
 
     @FXML
     private Button btnCreate;
+
+    @FXML
+    private Button btnGenerator;
 
     @FXML
     private Button btnOpen;
@@ -59,7 +63,7 @@ public class StartController {
                 //блокировка окна
                 stage.initModality(Modality.APPLICATION_MODAL);
 
-                stage.show();
+                stage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -128,6 +132,19 @@ public class StartController {
 
                 stage.show();
             }
+        });
+        btnGenerator.setOnAction(event -> {
+            //this.btnGenerator.getScene().getWindow().hide();
+            Process process = null;
+            try {
+                process = Runtime.getRuntime().exec ("java -jar " + System.getProperty("user.dir")+"\\src\\Jar\\PlaneGenerator.jar");
+                process.getInputStream().close();
+                process.getOutputStream().close();
+                process.getErrorStream().close();
+                } catch (java.io.IOException e) {
+                    System.out.println("Cannot execute jar");
+                }
+                Thread.currentThread().interrupt();
         });
     }
 }

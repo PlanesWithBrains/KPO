@@ -4,9 +4,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 //"/t"+flight.time+"/t"+cor.number+"/t"+cor.side+"/t"+line+"/t"+time
 import java.sql.Time;
+import java.text.DateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 //класс для табличного вывода взлета
 public class TablePlaneIN {
@@ -30,13 +30,9 @@ public class TablePlaneIN {
         this.corNumb = new SimpleIntegerProperty(table.cor.GetNumber());
         this.corSide = new SimpleStringProperty(table.cor.GetSide());
         this.runway = new SimpleIntegerProperty(table.line);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "HH:mm" , Locale.US );
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.time = new SimpleStringProperty(table.flight.time.format(formatter));
         this.timeFact = new SimpleStringProperty(table.time.format(formatter));
-
-        //this.time = new SimpleStringProperty(table.flight.time.toString());
-        //this.timeFact = new SimpleStringProperty(table.time.toString());
         this.status = new SimpleStringProperty(String.valueOf(table.flight.status));
     }
 
