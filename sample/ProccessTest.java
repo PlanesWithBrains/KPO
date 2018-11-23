@@ -1,15 +1,16 @@
 package sample;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.time.LocalTime;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-public class ProccessTestSingleReg {//тест на соответствие размеров массивов
 
+public class ProccessTest {
     @Test
-    public void TestSingleRegister() throws Exception {
+    public void makingSingleRegister() {
         LocalTime time = LocalTime.now();
         Flight[] flightA = new Flight[2];
         Flight[] flightD = new Flight[3];
@@ -31,7 +32,14 @@ public class ProccessTestSingleReg {//тест на соответствие р�
         }
         Proccess proc = new Proccess(flightA, flightD);
         fl=proc.MakingSingleRegister(flightA,flightD);
-        assertEquals(fl.length,flightA.length+flightD.length);
+        int t=0;
+        boolean f=false;
+        for (int i=1;i<fl.length;i++){
+            if (fl[i].time.isAfter(fl[i-1].time)||fl[i].time.equals(fl[i-1].time))t++;
+        }
+        if(t==fl.length-1)f=true;
+        Assert.assertTrue(f);
 
     }
 }
+

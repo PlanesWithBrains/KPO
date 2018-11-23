@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 public class ProccessTestSetTime {
     @Test
-    public void setTimes() {
+    public void setTimes() {// тест на правильность подсчета времени
         Flight[] flightA = new Flight[3];
         Flight[] fl;
         LocalTime time = LocalTime.now();

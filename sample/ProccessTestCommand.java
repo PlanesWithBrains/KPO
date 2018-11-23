@@ -5,12 +5,10 @@ import org.junit.Test;
 
 import java.time.LocalTime;
 
-import static org.junit.Assert.*;
-
 public class ProccessTestCommand {
     static Flight[] fl;
     @Test
-    public void TestGetCommand(){
+    public void TestGetCommand(){//тест на соответствие времени после составления расписания
             LocalTime time = LocalTime.now();
             Flight[] flightA = new Flight[2];
             Flight[] flightD = new Flight[3];
