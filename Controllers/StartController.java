@@ -1,29 +1,29 @@
 package Controllers;
 
+
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sample.FinalTable;
-import sample.Flight;
-import sample.Main;
-import sample.TablePlaneIN;
+
 
 public class StartController {
 
@@ -43,7 +43,12 @@ public class StartController {
     private Button btnOpen;
 
     @FXML
+    private Label labelName;
+
+    @FXML
     void initialize() {
+        Font font = Font.loadFont(getClass().getResourceAsStream("/Fonts/Label.ttf"), 31);
+        labelName.setFont(font);
         //кнопка создания нового расписания
         btnCreate.setOnAction(event -> {
             try {

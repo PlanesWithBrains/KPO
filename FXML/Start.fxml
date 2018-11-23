@@ -27,9 +27,9 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Button>
-            <Label alignment="TOP_CENTER" layoutX="-4.0" layoutY="154.0" prefHeight="36.0" prefWidth="451.0" text="Planes With Brains" textFill="#d9d9d9">
+            <Label fx:id="labelName" alignment="TOP_CENTER" layoutX="-4.0" layoutY="154.0" prefHeight="36.0" prefWidth="451.0" text="Planes With Brains" textFill="#d9d9d9">
                <font>
-                  <Font name="MADEEvolveSansEVO" size="31.0" />
+                  <Font name="Arial" size="31.0" />
                </font>
             </Label>
             <ImageView fitHeight="150.0" fitWidth="290.0" layoutX="130.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
