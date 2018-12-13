@@ -19,10 +19,52 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #393939;" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #393939;">
+         <children>
+            <Button fx:id="btnRecent1" alignment="BASELINE_LEFT" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent3" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="124.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent4" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="179.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent5" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="234.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent6" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="289.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent7" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="344.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent8" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="399.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRecent2" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="69.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="302.0" style="-fx-background-color: transparent; -fx-text-alignment: LEFT;" text="Создать&#10;новое расписание" textFill="#afb1b3">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45474a;" GridPane.columnIndex="1">
          <children>
-            <Button fx:id="btnCreate" layoutX="130.0" layoutY="224.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Создать новое расписание" textFill="#afb1b3">
+            <Button fx:id="btnCreate" defaultButton="true" layoutX="130.0" layoutY="224.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Создать новое расписание" textFill="#afb1b3">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>

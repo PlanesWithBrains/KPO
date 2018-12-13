@@ -2,8 +2,10 @@ package Controllers;
 
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 
+import Log.Log;
 import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -80,31 +82,35 @@ public class DemoController {
             }
 
             File f = fc.showSaveDialog(null);
-            if (f!= null){
+            if (f!= null) {
                 Gson gson = new Gson();
-                try(FileWriter wr = new FileWriter(f.getAbsoluteFile())) {
+                try (FileWriter wr = new FileWriter(f.getAbsoluteFile())) {
                     String str = gson.toJson(tab);
                     wr.write(str);
-                }
-                catch(IOException ex) {
+                } catch (IOException ex) {
                     System.out.println(ex.getMessage());
+                }
+                File fileLog = new File(getClass().getResource("../Log/log.json").getPath());
+                Log[] log = getLog(fileLog.getAbsolutePath());
+                if (log == null) {
+                    log = new Log[1];
+                }
+                Log buf[] = new Log[log.length+1];
+                for (int i = 0; i < log.length; i++){
+                    buf[i+1] = log[i];
+                }
+                buf[0] = new Log(LocalDateTime.now(), f.getAbsolutePath());
+                try {
+                    saveLog(buf, fileLog.getAbsolutePath());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             else
                 System.out.println((char)27 + "[32mWARNING: FileChooser do not save");
 
         });
-        //привязка значений колонок к значениям табличного класса (создан специально для таблицы)
-        columnTrip.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("trip"));
-        columnDO.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("statusF"));
-        columnDirect.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("direction"));
-        columnCorNumb.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("corNumb"));
-        columnCorSide.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("corSide"));
-        columnRunway.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("runway"));
-        columnTime.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("time"));
-        columnTimeFact.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("timeFact"));
-
-
+        initializeROW();
         /* вызов логики */
         if (!flagOpen) {
             Proccess pr = new Proccess(DemoController.getFlights(DemoController.PATH_INPUT, true), DemoController.getFlights(DemoController.PATH_OUTPUT, true));
@@ -116,13 +122,6 @@ public class DemoController {
         }
 
         TableIN.setItems(getFlights(tab)); //добавить записи
-
-
-
-
-
-
-
 
         //раскраска записей c экстренной ситуацией
         TableIN.setRowFactory((TableView<TablePlaneIN> paramP) -> new TableRow<TablePlaneIN>() {
@@ -142,7 +141,17 @@ public class DemoController {
         });
 
     }
-
+    static public void saveLog(Log lg[], String PATH) throws IOException {
+        File log = new File(PATH);
+        Gson gson = new Gson();
+        try(FileWriter wr = new FileWriter(log.getAbsoluteFile())) {
+            String str = gson.toJson(lg);
+            wr.write(str);
+        }
+        catch(IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
     //FinalTable to -> TablePlaneIN (класс логики антона -> класс вывода в таблицу)
     public ObservableList<TablePlaneIN> getFlights(FinalTable temp[]) {
@@ -153,7 +162,21 @@ public class DemoController {
         }
         return buf;
     }
-
+    //считываем лог
+    static public Log[] getLog(String PATH) { //ДЕССЕРИАЛИЗАТОР
+        Gson gson = new Gson(); //сашкина либа для десериализации
+        Log[] temp = new Log[1]; // буфер
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(PATH));
+            temp = gson.fromJson(reader, Log[].class);
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
     //считывам джсон
     static public Flight[] getFlights(String PATH, boolean flag) { //ДЕССЕРИАЛИЗАТОР
         Gson gson = new Gson(); //сашкина либа для десериализации
@@ -168,5 +191,17 @@ public class DemoController {
             e.printStackTrace();
         }
         return temp;
+    }
+
+    public void initializeROW(){
+        //привязка значений колонок к значениям табличного класса (создан специально для таблицы)
+        columnTrip.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("trip"));
+        columnDO.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("statusF"));
+        columnDirect.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("direction"));
+        columnCorNumb.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("corNumb"));
+        columnCorSide.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("corSide"));
+        columnRunway.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("runway"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("time"));
+        columnTimeFact.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("timeFact"));
     }
 }

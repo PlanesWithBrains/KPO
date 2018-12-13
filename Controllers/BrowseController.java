@@ -15,10 +15,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import sample.Main;
 
 public class BrowseController {
 
@@ -108,8 +110,8 @@ public class BrowseController {
 
             Scene scene = new Scene(root); //выставляем его размеры
             Stage stage = new Stage(); //хуйня чисто для scene builder
-            stage.setTitle("Planes with Branes ©Hobots inc (DEMO)"); //название окна
-
+            stage.setTitle("Planes with Branes"); //название окна
+            stage.getIcons().add(new Image(Main.class.getResourceAsStream("../Images/icon.png")));
             //обработка закрытия окна
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
