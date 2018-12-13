@@ -305,7 +305,9 @@ public class StartController {
 
         File f = new File(path);
         if (f != null) {
-
+            DemoController.NAME = f.getName().substring(0,f.getName().length()-5);
+            Date last = new Date(f.lastModified());
+            DemoController.DATE = LocalDateTime.ofInstant(last.toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy | HH:mm"));
             Gson gson = new Gson(); //сашкина либа для десериализации
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(f.getAbsoluteFile()));
