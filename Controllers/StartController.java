@@ -1,9 +1,11 @@
 package Controllers;
 
 
-import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -24,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import java.util.Date;
 import sample.FinalTable;
 import sample.Main;
 
@@ -216,7 +219,9 @@ public class StartController {
 
             File f = fc.showOpenDialog(null);
             if (f != null) {
-
+                DemoController.NAME = f.getName().substring(0,f.getName().length()-5);
+                Date last = new Date(f.lastModified());
+                DemoController.DATE = LocalDateTime.ofInstant(last.toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy | HH:mm"));
                 Gson gson = new Gson(); //сашкина либа для десериализации
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(f.getAbsoluteFile()));

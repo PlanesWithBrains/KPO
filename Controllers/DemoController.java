@@ -2,7 +2,9 @@ package Controllers;
 
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import Log.Log;
@@ -10,10 +12,7 @@ import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import sample.*;
@@ -22,6 +21,8 @@ import sample.*;
 public class DemoController {
     static String PATH_INPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testINPUT.json"; //поле пути к джсону
     static String PATH_OUTPUT;//= "/Users/antonablamsky/Projects/KPO_Git/testOUTPUT.json";
+    static String NAME = "Новое расписание";
+    static String DATE = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyy | HH:mm"));
 
     //OPEN/CREATE
     static FinalTable[] tab;
@@ -34,33 +35,42 @@ public class DemoController {
     private URL location;
 
     @FXML
-    private TableView<TablePlaneIN> TableIN; //окно таблицы
+    private TableView<TableSchedule> TableIN; //окно таблицы
 
     //колонки таблицы
 
     @FXML
-    private TableColumn<TablePlaneIN, String> columnTrip;
+    private TableColumn<TableSchedule, String> columnTrip;
 
     @FXML
-    private TableColumn<TablePlaneIN, String> columnDO;
+    private TableColumn<TableSchedule, String> columnDO;
 
     @FXML
-    private TableColumn<TablePlaneIN, String> columnDirect;
+    private TableColumn<TableSchedule, String> columnDirect;
 
     @FXML
-    private TableColumn<TablePlaneIN, String> columnTime;
+    private TableColumn<TableSchedule, String> columnTime;
 
     @FXML
-    private TableColumn<TablePlaneIN, Integer> columnCorNumb;
+    private TableColumn<TableSchedule, Integer> columnCorNumb;
 
     @FXML
-    private TableColumn<TablePlaneIN, String> columnCorSide;
+    private TableColumn<TableSchedule, String> columnCorSide;
 
     @FXML
-    private TableColumn<TablePlaneIN, Integer> columnRunway;
+    private TableColumn<TableSchedule, Integer> columnRunway;
 
     @FXML
-    private TableColumn<TablePlaneIN, String> columnTimeFact;
+    private TableColumn<TableSchedule, String> columnTimeFact;
+
+    @FXML
+    private TableColumn<TableSchedule, String> columnDate;
+
+    @FXML
+    private Label lbl_Date;
+
+    @FXML
+    private Label lbl_Title;
 
     @FXML
     private Button btnSave;
@@ -105,17 +115,25 @@ public class DemoController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                lbl_Title.setText(f.getName().substring(0,f.getName().length()-5));
+                lbl_Date.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyy | HH:mm")));
+                lbl_Date.setVisible(true);
             }
             else
                 System.out.println((char)27 + "[32mWARNING: FileChooser do not save");
 
         });
         initializeROW();
-        /* вызов логики */
         if (!flagOpen) {
-            Proccess pr = new Proccess(DemoController.getFlights(DemoController.PATH_INPUT, true), DemoController.getFlights(DemoController.PATH_OUTPUT, true));
+            Proccess pr = new Proccess(getFlights(PATH_INPUT, true), getFlights(PATH_OUTPUT, true));
             tab = pr.GetTable();
+            NAME = "Новое расписание";
+            lbl_Date.setVisible(false);
             }
+        else lbl_Date.setVisible(true);
+
+        lbl_Title.setText(NAME);
+        lbl_Date.setText(DATE);
         System.out.println("Рейс " + "\t" + "Действие" + "\t" + "Направление" + "\t" + "Время расп." + "\t" + "Корр." + " " + "Стор." + " " + "Полосa" + "\t" + "Факт.время");
         for (int i = 0; i < tab.length; i++) {
             System.out.println(tab[i].flight.getNumber() + "" + tab[i].flight.getCarrier() + "\t" + tab[i].statusF + "\t" + "\t" + tab[i].flight.dir_toString() + "\t" + "\t" + tab[i].flight.getTime() + "\t" + tab[i].cor.GetNumber() + "\t" + tab[i].cor.GetSide() + "\t" + tab[i].line + "\t" + tab[i].time);
@@ -124,9 +142,9 @@ public class DemoController {
         TableIN.setItems(getFlights(tab)); //добавить записи
 
         //раскраска записей c экстренной ситуацией
-        TableIN.setRowFactory((TableView<TablePlaneIN> paramP) -> new TableRow<TablePlaneIN>() {
+        TableIN.setRowFactory((TableView<TableSchedule> paramP) -> new TableRow<TableSchedule>() {
             @Override
-            protected void updateItem(TablePlaneIN tf, boolean paramBoolean) {
+            protected void updateItem(TableSchedule tf, boolean paramBoolean) {
                 if (tf != null) {
                     if (!tf.getStatus()) //если есть экстренная ситуация - красим в красный
                         setStyle("-fx-background-color: LIGHTCORAL; -fx-text-background-color: black;");
@@ -153,11 +171,11 @@ public class DemoController {
         }
     }
 
-    //FinalTable to -> TablePlaneIN (класс логики антона -> класс вывода в таблицу)
-    public ObservableList<TablePlaneIN> getFlights(FinalTable temp[]) {
-        ObservableList<TablePlaneIN> buf = FXCollections.observableArrayList();
+    //FinalTable to -> TableSchedule (класс логики антона -> класс вывода в таблицу)
+    public ObservableList<TableSchedule> getFlights(FinalTable temp[]) {
+        ObservableList<TableSchedule> buf = FXCollections.observableArrayList();
         for (int i = 0; i < temp.length; i++){
-            TablePlaneIN bufTable = new sample.TablePlaneIN(temp[i]);
+            TableSchedule bufTable = new TableSchedule(temp[i]);
             buf.add(bufTable);
         }
         return buf;
@@ -195,13 +213,14 @@ public class DemoController {
 
     public void initializeROW(){
         //привязка значений колонок к значениям табличного класса (создан специально для таблицы)
-        columnTrip.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("trip"));
-        columnDO.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("statusF"));
-        columnDirect.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("direction"));
-        columnCorNumb.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("corNumb"));
-        columnCorSide.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, String>("corSide"));
-        columnRunway.setCellValueFactory(new PropertyValueFactory<TablePlaneIN, Integer>("runway"));
-        columnTime.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("time"));
-        columnTimeFact.setCellValueFactory(new PropertyValueFactory<TablePlaneIN,String>("timeFact"));
+        columnTrip.setCellValueFactory(new PropertyValueFactory<TableSchedule, String>("trip"));
+        columnDO.setCellValueFactory(new PropertyValueFactory<TableSchedule, String>("statusF"));
+        columnDirect.setCellValueFactory(new PropertyValueFactory<TableSchedule, String>("direction"));
+        columnCorNumb.setCellValueFactory(new PropertyValueFactory<TableSchedule, Integer>("corNumb"));
+        columnCorSide.setCellValueFactory(new PropertyValueFactory<TableSchedule, String>("corSide"));
+        columnRunway.setCellValueFactory(new PropertyValueFactory<TableSchedule, Integer>("runway"));
+        columnTime.setCellValueFactory(new PropertyValueFactory<TableSchedule,String>("time"));
+        columnTimeFact.setCellValueFactory(new PropertyValueFactory<TableSchedule,String>("timeFact"));
+        columnDate.setCellValueFactory(new PropertyValueFactory<TableSchedule, String>("date"));
     }
 }
