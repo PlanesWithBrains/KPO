@@ -6,8 +6,8 @@ import java.time.*;
 public class Proccess{
     Flight[] flightA;// прилетающие самолеты
     Flight[] flightD;
-    static LocalTime time1;
-    static LocalTime time2;
+    static LocalDateTime time1;
+    static LocalDateTime time2;
     private Corridors cor;
     private String statusF;
     FinalTable[] Table;//
@@ -32,12 +32,12 @@ public class Proccess{
         catch (Exception e ){e.printStackTrace();}
     }
     public Flight[] SetTime(Flight[] flightA){
-        LocalTime time;
+        LocalDateTime time;
         Flight temp;
         time = flightA[0].time;
         time = time.plusMinutes(2);
         for(int i=1;i<flightA.length;i++){
-            int dist = (flightA[i].distance-flightA[i-1].distance)*1000;
+            int dist = (int)(flightA[i].distance-flightA[i-1].distance)*1000;
             dist = (int)(dist/(500/3.6));
             time = time.plusSeconds(dist);
             time = time.minusMinutes(1);
@@ -141,6 +141,9 @@ public class Proccess{
         boolean corStatus = false;
         if((Arrays.asList("NorthWest", "West","NorthEast", "East")).contains(flight[i].direction.toString())&& f) {
             cor = (airport.directions.get(flight[i].direction));
+            if(flight[i].time.isBefore(time1)){
+                flight[i].time=time1;
+            }
             if (flight[i].hight != 0) {
                 time1 = time1.plusMinutes(7);
                 statusF = "Посадка";
@@ -160,6 +163,9 @@ public class Proccess{
         }
         if ((Arrays.asList("SouthWest", "West", "SouthEast", "East")).contains(flight[i].direction.toString())&& f) {
             cor = (airport.directions.get(flight[i].direction)); // информация о том,какой корридор занят самолетом
+            if(flight[i].time.isBefore(time2)){
+                flight[i].time=time2;
+            }
             if (flight[i].hight != 0) {
                 time2 = time2.plusMinutes(6);
                 statusF = "Посадка";

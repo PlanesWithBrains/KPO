@@ -39,7 +39,7 @@ public class TableSchedule {
         this.status = new SimpleStringProperty(String.valueOf(table.flight.status));
 
         //починить
-        this.date = new SimpleStringProperty(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        this.date = new SimpleStringProperty(table.flight.time.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
     }
 
     //ГЕТы

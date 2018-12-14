@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../FXML/Start.fxml")); //загружаем fxml стартового окна
+        Parent root = FXMLLoader.load(Main.class.getResource("../FXML/Start.fxml")); //загружаем fxml стартового окна
 
         Scene scene = new Scene(root);
         stage.setTitle("Planes with Branes"); //название окна
